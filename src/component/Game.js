@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Board } from "./Board";
 import { sortType } from "../until/Action.Type";
 import { pieces } from "../until/Action.Type";
-import { calculateWinner } from "../until/Matrix";
+import { checkWin } from "../until/Matrix";
 export const Game = (props) => {
   const [sort, setSort] = useState(sortType.ASC);
 
@@ -28,7 +28,7 @@ export const Game = (props) => {
       xIsNext: true,
     });
   }, [props.size]);
-  const [winner, line] = calculateWinner(
+  const [winner, line] = checkWin(
     state.history[state.step].squares,
     props.size,
     props.numWin
@@ -40,7 +40,7 @@ export const Game = (props) => {
     if (squares[i] != null) {
       return;
     }
-    if (calculateWinner(squares, props.size, props.numWin)[0]) {
+    if (checkWin(squares, props.size, props.numWin)[0]) {
       return;
     }
     squares[i] = state.xIsNext ? pieces.X : pieces.O;
@@ -70,7 +70,7 @@ export const Game = (props) => {
           onClick={(i) => clickCheck(i)}
           squares={state.history[state.step].squares}
           lineWin={
-            calculateWinner(
+            checkWin(
               state.history[state.step].squares,
               props.size,
               props.numWin
@@ -87,41 +87,34 @@ export const Game = (props) => {
               setSort(sortType.ASC);
             }}
           >
-            Asc Sort
+            Tăng dần
           </button>
           <button
             onClick={() => {
               setSort(sortType.DSC);
             }}
           >
-            Des Sort
+            Giảm dần
           </button>
         </div>
 
-        <ol className={sort == "ASC" ? "" : "reserve"}>
-          {state.history.map((step, move) => {
-            const turn = move
-              ? "Bước #" +
-                move +
+        <ol className={sort == sortType.ASC ? "" : "reserve"}>
+          {state.history.map((step, index) => {
+            const turn = index
+              ? (step.isX ? pieces.X : pieces.O) +
                 " " +
-                (step.isX ? "X" : "O") +
-                `(${step.location % props.size},${Math.floor(
+                `(${step.location % props.size};${Math.floor(
                   step.location / props.size
                 )})`
               : "Bắt đầu";
             return (
-              <li
-                key={move}
-                className={`history-button ${
-                  move === state.stepNumber ? "history-selected" : " "
-                }`}
-              >
+              <li key={index}>
                 <button
                   onClick={() => {
                     setState({
                       ...state,
-                      step: move,
-                      xIsNext: move % 2 === 0,
+                      step: index,
+                      xIsNext: index % 2 === 0,
                     });
                   }}
                 >

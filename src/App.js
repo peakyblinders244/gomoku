@@ -9,8 +9,11 @@ function App() {
   return (
     <div className="App">
       <div className="form-field">
+        <div>
+          <label>GOMOKU</label>
+        </div>
         <div className="size-field">
-          <label>Kích thước bảng:</label>
+          <label>Kích thước bảng: </label>
           <input
             type="number"
             value={init.size}
@@ -19,8 +22,8 @@ function App() {
             }}
           />
         </div>
-        <div className="condition-field">
-          <label>Số lượng đánh :</label>
+        <div>
+          <label>Số lượng đánh: </label>
           <input
             type="number"
             value={init.numWin}

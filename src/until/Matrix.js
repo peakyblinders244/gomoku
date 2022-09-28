@@ -1,8 +1,10 @@
+import { pieces } from "./Action.Type";
+
 const getLines = (pos, size, numWin) => {
-  const horizontalLine = getHorizontalLine(pos, size, numWin);
-  const verticalLine = getVerticalLine(pos, size, numWin);
-  const diagonalLine = getDiagonalLine(pos, size, numWin);
-  const reverseDiagonalLine = getReverseDiagonalLine(pos, size, numWin);
+  const horizontalLine = getHorizontal(pos, size, numWin);
+  const verticalLine = getVertical(pos, size, numWin);
+  const diagonalLine = getDiagonal(pos, size, numWin);
+  const reverseDiagonalLine = getReverseDiagonal(pos, size, numWin);
 
   const lines = [
     horizontalLine,
@@ -15,55 +17,63 @@ const getLines = (pos, size, numWin) => {
   });
 };
 
-const getHorizontalLine = (pos, size, numWin) => {
+const getHorizontal = (pos, size, numWin) => {
   let line = [];
   for (let i = 0; i < numWin; i++) {
     if ((pos % size) + i < size) {
       line.push(pos + i);
     }
   }
+  console.log("Horizontal: ");
+  console.log(line);
   return line;
 };
 
-const getVerticalLine = (pos, size, numWin) => {
+const getVertical = (pos, size, numWin) => {
   let line = [];
   for (let i = 0; i < numWin; i++) {
     if (Math.floor((pos + i * size) / size) < size) {
       line.push(pos + i * size);
     }
   }
+  console.log("Vertical: ");
+  console.log(line);
   return line;
 };
 
-const getDiagonalLine = (pos, size, numWin) => {
+const getDiagonal = (pos, size, numWin) => {
   let line = [];
   for (let i = 0; i < numWin; i++) {
     if ((pos % size) + i < size && Math.floor((pos + i * size) / size) < size) {
       line.push(pos + i * size + i);
     }
   }
+  console.log("Diagonal: ");
+  console.log(line);
   return line;
 };
 
-const getReverseDiagonalLine = (pos, size, numWin) => {
+const getReverseDiagonal = (pos, size, numWin) => {
   let line = [];
   for (let i = 0; i < numWin; i++) {
     if ((pos % size) - i > 0 && Math.floor((pos + i * size) / size) < size) {
       line.push(pos + i * size - i);
     }
   }
+  console.log("ReverseDiagonal: ");
+  console.log(line);
   return line;
 };
 
-const arrayCompare = (arr1, arr2) => {
+const compare = (array1, array2) => {
   return (
-    arr1.length === arr2.length &&
-    arr1.every((value, index) => value === arr2[index])
+    array1.length === array2.length &&
+    array1.every((value, index) => value === array2[index])
   );
 };
 
-export function calculateWinner(squares, size, numWin) {
-  const winningLines = [Array(numWin).fill("X"), Array(numWin).fill("O")];
+export function checkWin(squares, size, numWin) {
+  const lineWins = [Array(numWin).fill(pieces.X), Array(numWin).fill(pieces.O)];
   for (let i = 0; i < squares.length; i++) {
     if (squares[i]) {
       const lines = getLines(i, size, numWin);
@@ -73,7 +83,7 @@ export function calculateWinner(squares, size, numWin) {
         for (let k = 0; k < line.length; k++) {
           lineValues.push(squares[line[k]]);
         }
-        if (winningLines.find((l) => arrayCompare(l, lineValues))) {
+        if (lineWins.find((l) => compare(l, lineValues))) {
           return [squares[i], line];
         }
       }
