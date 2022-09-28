@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { useState } from "react";
+import { Game } from "./component/Game";
+import { Board } from "./component/Board";
 
 function App() {
+  const [init, setInit] = useState({ size: 3, numWin: 3 });
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="form-field">
+        <div className="size-field">
+          <label>Kích thước bảng:</label>
+          <input
+            type="number"
+            value={init.size}
+            onChange={(e) => {
+              setInit({ ...init, size: parseInt(e.target.value) });
+            }}
+          />
+        </div>
+        <div className="condition-field">
+          <label>Số lượng đánh :</label>
+          <input
+            type="number"
+            value={init.numWin}
+            onChange={(e) => {
+              setInit({ ...init, numWin: parseInt(e.target.value) });
+            }}
+          />
+        </div>
+      </div>
+      <Game size={init.size} numWin={init.numWin} />
     </div>
   );
 }
