@@ -4,9 +4,8 @@ import { Board } from "./Board";
 import { sortType } from "../until/Action.Type";
 import { pieces } from "../until/Action.Type";
 import { checkWin } from "../until/Matrix";
+import { History } from "./History";
 export const Game = (props) => {
-  const [sort, setSort] = useState(sortType.ASC);
-
   const [state, setState] = useState({
     history: [
       {
@@ -79,52 +78,15 @@ export const Game = (props) => {
           size={props.size}
         />
       </div>
-
-      <div>
-        <div>
-          <button
-            onClick={() => {
-              setSort(sortType.ASC);
-            }}
-          >
-            Tăng dần
-          </button>
-          <button
-            onClick={() => {
-              setSort(sortType.DSC);
-            }}
-          >
-            Giảm dần
-          </button>
-        </div>
-
-        <ol className={sort == sortType.ASC ? "" : "reserve"}>
-          {state.history.map((step, index) => {
-            const turn = index
-              ? (step.isX ? pieces.X : pieces.O) +
-                " " +
-                `(${step.location % props.size};${Math.floor(
-                  step.location / props.size
-                )})`
-              : "Bắt đầu";
-            return (
-              <li key={index}>
-                <button
-                  onClick={() => {
-                    setState({
-                      ...state,
-                      step: index,
-                      xIsNext: index % 2 === 0,
-                    });
-                  }}
-                >
-                  {turn}
-                </button>
-              </li>
-            );
-          })}
-        </ol>
-      </div>
+      <History
+        handleState
+        
+        size={props.size}
+        state={state}
+        handleClick={(value) => {
+          setState(value);
+        }}
+      />
     </div>
   );
 };

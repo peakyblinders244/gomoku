@@ -4,7 +4,7 @@ import { Game } from "./component/Game";
 import { Board } from "./component/Board";
 
 function App() {
-  const [init, setInit] = useState({ size: 3, numWin: 3 });
+  const [init, setInit] = useState({ size: 10, numWin: 5 });
 
   return (
     <div className="App">

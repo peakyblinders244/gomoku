@@ -24,8 +24,6 @@ const getHorizontal = (pos, size, numWin) => {
       line.push(pos + i);
     }
   }
-  console.log("Horizontal: ");
-  console.log(line);
   return line;
 };
 
@@ -36,8 +34,7 @@ const getVertical = (pos, size, numWin) => {
       line.push(pos + i * size);
     }
   }
-  console.log("Vertical: ");
-  console.log(line);
+
   return line;
 };
 
@@ -48,20 +45,17 @@ const getDiagonal = (pos, size, numWin) => {
       line.push(pos + i * size + i);
     }
   }
-  console.log("Diagonal: ");
-  console.log(line);
   return line;
 };
 
 const getReverseDiagonal = (pos, size, numWin) => {
   let line = [];
   for (let i = 0; i < numWin; i++) {
-    if ((pos % size) - i > 0 && Math.floor((pos + i * size) / size) < size) {
+    if ((pos % size) - i >= 0 && Math.floor((pos + i * size) / size) < size) {
       line.push(pos + i * size - i);
     }
   }
-  console.log("ReverseDiagonal: ");
-  console.log(line);
+
   return line;
 };
 
